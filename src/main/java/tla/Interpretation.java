@@ -1,5 +1,6 @@
 package tla;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,19 +8,13 @@ import java.util.HashMap;
 
 public class Interpretation {
 
-	// permet la lecture de chaîne au clavier
-	private static BufferedReader stdinReader = new BufferedReader(new InputStreamReader(System.in));
-	private HashMap<String, Double>  m;
+	private static boolean erreurDejaAffichee = false; // Drapeau pour éviter les multiples fenêtres
+	private HashMap<String, Double> m;
 
 	public Interpretation() {
-		/* A COMPLETER */
-		m = new HashMap<String, Double>();
+		m = new HashMap<>();
 	}
 
-	/*
-	interprete le noeud n
-	et appel récursif sur les noeuds enfants de n
-	 */
 	public Double interpreter(Noeud n) {
 		if (n.getTypeDeNoeud() == TypeDeNoeud.intv) {
 			return Double.parseDouble(n.getValeur());
@@ -38,7 +33,20 @@ public class Interpretation {
 		}
 		if (n.getTypeDeNoeud() == TypeDeNoeud.ident) {
 			if (!m.containsKey(n.getValeur())) {
-				throw new IllegalStateException("Identifiant non défini : " + n.getValeur());
+				// Message d'erreur
+				String message = "Identifiant non défini : " + n.getValeur();
+				System.err.println(message);
+
+				// Affichage unique de la boîte de dialogue
+				if (!erreurDejaAffichee) {
+					erreurDejaAffichee = true; // Marquer l'erreur comme affichée
+					SwingUtilities.invokeLater(() -> {
+						JOptionPane.showMessageDialog(null, message, "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+						erreurDejaAffichee = false; // Réinitialiser le drapeau une fois la fenêtre fermée
+					});
+				}
+
+				throw new IllegalStateException(message);
 			}
 			return m.get(n.getValeur());
 		}
@@ -47,6 +55,4 @@ public class Interpretation {
 		}
 		return null; // Retour par défaut (ne devrait jamais être atteint)
 	}
-
-
 }
