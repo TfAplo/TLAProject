@@ -21,22 +21,32 @@ public class Interpretation {
 	et appel récursif sur les noeuds enfants de n
 	 */
 	public Double interpreter(Noeud n) {
-		if(n.getTypeDeNoeud() == TypeDeNoeud.intv){
-			return Double.parseDouble(n.getValeur());
-		}if(n.getTypeDeNoeud() == TypeDeNoeud.add){
-			return interpreter(n.enfant(0)) + interpreter(n.enfant(1));
-		}if(n.getTypeDeNoeud() == TypeDeNoeud.sub){
-			return interpreter(n.enfant(0)) - interpreter(n.enfant(1));
-		}if(n.getTypeDeNoeud() == TypeDeNoeud.kPow){
-			return Math.pow(interpreter(n.enfant(0)).doubleValue(), interpreter(n.enfant(1)).doubleValue());
-		}if (n.getTypeDeNoeud() == TypeDeNoeud.multiply){
-			return interpreter(n.enfant(0)) * interpreter(n.enfant(1));
-		}if (n.getTypeDeNoeud() == TypeDeNoeud.ident){
-			return m.get(n.getValeur());
-		}if (n.getTypeDeNoeud() == TypeDeNoeud.doublev){
+		if (n.getTypeDeNoeud() == TypeDeNoeud.intv) {
 			return Double.parseDouble(n.getValeur());
 		}
-	return null;
+		if (n.getTypeDeNoeud() == TypeDeNoeud.add) {
+			return interpreter(n.enfant(0)) + interpreter(n.enfant(1));
+		}
+		if (n.getTypeDeNoeud() == TypeDeNoeud.sub) {
+			return interpreter(n.enfant(0)) - interpreter(n.enfant(1));
+		}
+		if (n.getTypeDeNoeud() == TypeDeNoeud.kPow) {
+			return Math.pow(interpreter(n.enfant(0)), interpreter(n.enfant(1)));
+		}
+		if (n.getTypeDeNoeud() == TypeDeNoeud.multiply) {
+			return interpreter(n.enfant(0)) * interpreter(n.enfant(1));
+		}
+		if (n.getTypeDeNoeud() == TypeDeNoeud.ident) {
+			if (!m.containsKey(n.getValeur())) {
+				throw new IllegalStateException("Identifiant non défini : " + n.getValeur());
+			}
+			return m.get(n.getValeur());
+		}
+		if (n.getTypeDeNoeud() == TypeDeNoeud.doublev) {
+			return Double.parseDouble(n.getValeur());
+		}
+		return null; // Retour par défaut (ne devrait jamais être atteint)
 	}
+
 
 }
