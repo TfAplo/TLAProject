@@ -6,11 +6,22 @@ import java.util.List;
 public class AnalyseLexicale {
 
 	private static Integer TRANSITIONS[][] = {
-			{0, 101, 102, 103, 104, 105, 3, 4, 1, 2},
-			{106, 106, 106, 106, 106, 106, 3, 106, 1, 106},
-			{107, 107, 107, 107, 107, 107, 107, 107, 2, 2},
-			{108, 108, 108, 108, 108, 108, 108, 108, 3, 108},
-			{109, 109, 109, 109, 109, 109, 109, 109, 1, 109}
+			//            espace    +    *    (    )    ,	.	-	chiffre  letter
+			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,       1,      2  },
+			/*  1 */    {    106, 106, 106, 106, 106, 106,   3,	106,     1,    106  },
+			/*  2 */    {    107, 107, 107, 107, 107, 107, 107,	107, 	 2,      2  },
+			/*  3 */    {    108, 108, 108, 108, 108, 108, 108,	108, 	 3,      108},
+			/*  4 */    {    109, 109, 109, 109, 109, 109, 109,	109, 	 1,      109}
+
+			// 101 acceptation d'un +
+			// 102 acceptation d'un *
+			// 103 acceptation d'un (
+			// 104 acceptation d'un )
+			// 105 acceptation d'un ,
+			// 106 acceptation d'un entier                   (retourArriere)
+			// 107 acceptation d'un identifiant ou mot clé   (retourArriere)
+			// 108 acceptation d'un double
+			// 109 acceptation d'un -
 	};
 
 	private String entree;
