@@ -32,7 +32,7 @@ public class AnalyseLexicale {
 			// 108 acceptation d'un double
 			// 109 acceptation d'un -
 			// 110 acceptation d'un /
-//
+
 	};
 
 	private String entree;
