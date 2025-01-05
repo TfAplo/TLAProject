@@ -36,7 +36,8 @@ public class AnalyseSyntaxique {
 	 */
 
 	private Noeud S() throws UnexpectedTokenException {
-
+		System.out.println(getTypeDeToken());
+		System.out.println(tokens.get(pos).getValeur());
 		if (getTypeDeToken() == TypeDeToken.intv ||
 				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.kPow ||
@@ -49,7 +50,7 @@ public class AnalyseSyntaxique {
 			Noeud a = A();
 			return S_prime(a);
 		}
-		throw new SyntaxErrorException(tokens.get(pos).getPosition(), "intv, (, pow, or ident");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "intv, (, pow, or ident");
 	}
 
 	/*
@@ -84,7 +85,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new SyntaxErrorException(tokens.get(pos).getPosition(), "+ or )");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "+ or )");
 	}
 
 	/*
@@ -137,7 +138,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new SyntaxErrorException(tokens.get(pos).getPosition(), "* + or )");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or )");
 	}
 
 	/*
@@ -161,7 +162,7 @@ public class AnalyseSyntaxique {
 				lireToken();
 				return s;
 			}
-			throw new SyntaxErrorException(tokens.get(pos).getPosition(), ")");
+			throw new UnexpectedTokenException(tokens.get(pos).getPosition(), ")");
 		}
 
 		if (getTypeDeToken() == TypeDeToken.intv) {
@@ -195,25 +196,24 @@ public class AnalyseSyntaxique {
 			lireToken(); // avance au token suivant
 
 			if (lireToken().getTypeDeToken() != TypeDeToken.leftPar) {
-				throw new SyntaxErrorException(tokens.get(pos).getPosition(), "( ");
+				throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "( ");
 			}
 
 			Noeud n = new Noeud(TypeDeNoeud.kPow);
 			n.ajout(S());
 
 			if (lireToken().getTypeDeToken() != TypeDeToken.comma) {
-				throw new SyntaxErrorException(tokens.get(pos).getPosition(), ", ");
+				throw new UnexpectedTokenException(tokens.get(pos).getPosition(), ", ");
 			}
 
 			n.ajout(S());
 
 			if (lireToken().getTypeDeToken() != TypeDeToken.rightPar) {
-				throw new SyntaxErrorException(tokens.get(pos).getPosition(), ")");
+				throw new UnexpectedTokenException(tokens.get(pos).getPosition(), ")");
 			}
 
 			return n;
 		}
-		throw new SyntaxErrorException(tokens.get(pos).getPosition(), "intv, (, pow, or ident");
 
 		if (getTypeDeToken() == TypeDeToken.absolute) {
 
@@ -228,10 +228,9 @@ public class AnalyseSyntaxique {
 				a.ajout(s);
 				return a;
 			}
-			throw new UnexpectedTokenException("| attendu");
+			throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"| attendu");
 		}
-
-		throw new UnexpectedTokenException("intv, double, (, |, pow, ou ident attendu");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"intv, double, (, |, pow, ou ident attendu");
 	}
 
 	/*
@@ -278,7 +277,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new SyntaxErrorException(tokens.get(pos).getPosition(), "* + or )");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or )");
 	}
 
 	/*
@@ -300,7 +299,7 @@ public class AnalyseSyntaxique {
 			Noeud n = B();
 			return D_prime(n);
 		}
-		throw new UnexpectedTokenException("( | ident int ou double attendu");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"( | ident int ou double attendu");
 	}
 
 	/*
@@ -340,7 +339,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException("/ + * , - | ou ) attendu");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"/ + * , - | ou ) attendu");
 
 	}
 

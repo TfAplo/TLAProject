@@ -69,6 +69,7 @@ public class Main {
         textInput.addActionListener(event -> {
             try {
                 plot.setFunction(textInput.getText());
+                widgetTrace.repaint();
             } catch (LexicalErrorException e) {
                 JOptionPane.showMessageDialog(frame, "Error at position " + e.getPosition() + ": " + e.getErrorType(), "Lexical Error", JOptionPane.ERROR_MESSAGE);
             } catch (SyntaxErrorException e) {
@@ -76,12 +77,12 @@ public class Main {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            widgetTrace.repaint();
         });
 
         btnOk.addActionListener(event -> {
             try {
                 plot.setFunction(textInput.getText());
+                widgetTrace.repaint();
             } catch (LexicalErrorException e) {
                 JOptionPane.showMessageDialog(frame, "Error at position " + e.getPosition() + ": " + e.getErrorType(), "Lexical Error", JOptionPane.ERROR_MESSAGE);
             } catch (SyntaxErrorException e) {
@@ -89,7 +90,6 @@ public class Main {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-            widgetTrace.repaint();
         });
 
         slider.addChangeListener(event -> {
