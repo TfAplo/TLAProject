@@ -72,6 +72,7 @@ public class Main {
         });
 
         btnOk.addActionListener(event -> {
+            plot.setFunction(textInput.getText());
             widgetTrace.repaint();
         });
 

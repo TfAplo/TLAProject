@@ -26,11 +26,23 @@ public class Plot {
 
     String function = "";
 
+    Noeud racine;
+
     /**
      * point d'entrée d'ecriture d'une fonction par l'IHM<br/>
+     *
+     * effectue l'analyse lexicale et syntaxique de la chaine entree,
+     * affiche et interprète l'arbre syntaxique abstrait
      */
     void setFunction(String entree) {
         this.function = entree;
+        try{
+            List<Token> tokens = new AnalyseLexicale().analyse(entree);
+            this.racine = new AnalyseSyntaxique().analyse(tokens);
+            Noeud.afficheNoeud(racine, 0);
+        }catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
     }
 
     /**
@@ -63,6 +75,8 @@ public class Plot {
 
             // affiche différents points représentant la fonction sélectionnée
             g.setColor(Color.BLACK);
+            //creation de l'interpréteur
+            Interpretation inter = new Interpretation();
             for (double x = -range; x<= range; x += step) {
 
                 double y=0;
@@ -70,7 +84,9 @@ public class Plot {
             /*
             calcule de la valeur y=f(x) suivant la fonction tapée par l'utilisateur
             */
-                y = testInterpretation(function.replace("x", String.valueOf(x)));
+                //y = testInterpretation(function.replace("x", String.valueOf(x)));
+                inter.updateMap(x);
+                y = inter.interpreter(racine);
 
             /*
             Affichage du point de coordonnées (x,y), coordonnées ajustées à la dimension
@@ -88,54 +104,5 @@ public class Plot {
         }
 
 
-    }
-
-    /*
-effectue l'analyse lexicale de la chaine entree,
-affiche la liste des tokens reconnus
- */
-    private static void testAnalyseLexicale(String entree) {
-        System.out.println("test analyse lexicale");
-        try {
-            java.util.List<Token> tokens = new AnalyseLexicale().analyse(entree);
-            for (Token t : tokens) {
-                System.out.println(t);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-        System.out.println();
-    }
-
-    /*
-    effectue l'analyse lexicale et syntaxique de la chaine entree
-     */
-    private static void testAnalyseSyntaxique(String entree) {
-        System.out.println("test analyse syntaxique");
-        try {
-            java.util.List<Token> tokens = new AnalyseLexicale().analyse(entree);
-            Noeud racine = new AnalyseSyntaxique().analyse(tokens);
-            Noeud.afficheNoeud(racine, 0);
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-        System.out.println();
-    }
-
-    /*
-    effectue l'analyse lexicale et syntaxique de la chaine entree,
-    affiche et interprète l'arbre syntaxique abstrait
-     */
-    private static double testInterpretation(String entree) {
-        System.out.println("test interpretation");
-        try {
-            List<Token> tokens = new AnalyseLexicale().analyse(entree);
-            Noeud racine = new AnalyseSyntaxique().analyse(tokens);
-            Noeud.afficheNoeud(racine, 0);
-            return new Interpretation().interpreter(racine);
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-        return 0;
     }
 }

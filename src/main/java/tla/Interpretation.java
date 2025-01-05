@@ -13,7 +13,7 @@ public class Interpretation {
 
 	public Interpretation() {
 		/* A COMPLETER */
-		m = new HashMap<String, Double>();
+		this.m = new HashMap<String, Double>();
 	}
 
 	/*
@@ -39,4 +39,10 @@ public class Interpretation {
 	return null;
 	}
 
+	/*
+	met a jour x dans le hashmap
+	 */
+	public void updateMap(double x) {
+		m.put("x",x);
+	}
 }
