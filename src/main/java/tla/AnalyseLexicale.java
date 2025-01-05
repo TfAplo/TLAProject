@@ -1,3 +1,9 @@
+/*
+DUBOULOY Grégory
+FOUQUET Tom
+DELAMARE Bastien
+*/
+
 package tla;
 
 import java.util.ArrayList;
@@ -5,13 +11,16 @@ import java.util.List;
 
 public class AnalyseLexicale {
 
+	/*
+	Table de transition de l'analyse lexicale
+	 */
 	private static Integer TRANSITIONS[][] = {
-			//            espace    +    *    (    )    ,	.	-	chiffre  letter
-			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,       1,      2  },
-			/*  1 */    {    106, 106, 106, 106, 106, 106,   3,	106,     1,    106  },
-			/*  2 */    {    107, 107, 107, 107, 107, 107, 107,	107, 	 2,      2  },
-			/*  3 */    {    108, 108, 108, 108, 108, 108, 108,	108, 	 3,      108},
-			/*  4 */    {    109, 109, 109, 109, 109, 109, 109,	109, 	 1,      109}
+			//            espace    +    *    (    )    ,	.	-	  /	  	|	chiffre  letter
+			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,    110,  111, 	1,      2  },
+			/*  1 */    {    106, 106, 106, 106, 106, 106,   3,	106,  106,  106, 	1,    106  },
+			/*  2 */    {    107, 107, 107, 107, 107, 107, 107,	107,  107,  107, 	2,      2  },
+			/*  3 */    {    108, 108, 108, 108, 108, 108, 108,	108,  108,	108, 	3,    108  },
+			/*  4 */    {    109, 109, 109, 109, 109, 109, 109,	109,  109,	109, 	1,    109  }
 
 			// 101 acceptation d'un +
 			// 102 acceptation d'un *
@@ -22,12 +31,19 @@ public class AnalyseLexicale {
 			// 107 acceptation d'un identifiant ou mot clé   (retourArriere)
 			// 108 acceptation d'un double
 			// 109 acceptation d'un -
+			// 110 acceptation d'un /
+			// 111 acceptation d'un |
+
 	};
 
 	private String entree;
 	private int pos;
+
 	private static final int ETAT_INITIAL = 0;
 
+	/*
+	effectue l'analyse lexicale et retourne une liste de Token
+	 */
 	public List<Token> analyse(String entree) throws Exception {
 		this.entree = entree;
 		pos = 0;
@@ -39,8 +55,10 @@ public class AnalyseLexicale {
 			c = lireCaractere();
 			Integer e = TRANSITIONS[etat][indiceSymbole(c)];
 			if (e == null) {
-				throw new LexicalErrorException(pos - 1, "No transition from state " + etat + " with symbol " + c);
+				System.out.println("pas de transition depuis état " + etat + " avec symbole " + c);
+				throw new LexicalErrorException("pas de transition depuis état " + etat + " avec symbole " + c);
 			}
+			// cas particulier lorsqu'un état d'acceptation est atteint
 			if (e >= 100) {
 				if (e == 101) {
 					tokens.add(new Token(TypeDeToken.add, pos - 1));
@@ -72,14 +90,25 @@ public class AnalyseLexicale {
 				} else if (e == 109) {
 					tokens.add(new Token(TypeDeToken.sub, pos - 1));
 					retourArriere();
+				}else if (e == 110) {
+					tokens.add(new Token(TypeDeToken.divide, buf));
+				}else if (e == 111) {
+					tokens.add(new Token(TypeDeToken.absolute, buf));
 				}
+				// un état d'acceptation ayant été atteint, retourne à l'état 0
 				etat = 0;
+				// reinitialise buf
 				buf = "";
 			} else {
+				// enregistre le nouvel état
 				etat = e;
-				if (etat > 0) buf = buf + c;
+				// ajoute le symbole qui vient d'être examiné à buf
+				// sauf s'il s'agit un espace ou assimilé
+				if (etat>0) buf = buf + c;
 			}
+
 		} while (c != null);
+
 		return tokens;
 	}
 
@@ -98,6 +127,10 @@ public class AnalyseLexicale {
 		pos = pos - 1;
 	}
 
+	/*
+	Pour chaque symbole terminal acceptable en entrée de l'analyse syntaxique
+	retourne un indice identifiant soit un symbole, soit une classe de symbole :
+	 */
 	private static int indiceSymbole(Character c) throws IllegalCharacterException {
 		if (c == null) return 0;
 		if (Character.isWhitespace(c)) return 0;
@@ -108,8 +141,12 @@ public class AnalyseLexicale {
 		if (c == ',') return 5;
 		if (c == '.') return 6;
 		if (c == '-') return 7;
-		if (Character.isDigit(c)) return 8;
-		if (Character.isLetter(c)) return 9;
-		throw new IllegalCharacterException("Unknown symbol: " + c);
+		if (c == '/') return 8;
+		if (c == '|') return 9;
+		if (Character.isDigit(c)) return 10;
+		if (Character.isLetter(c)) return 11;
+		System.out.println("Symbole inconnu : " + c);
+		throw new IllegalCharacterException(c.toString());
 	}
+
 }
