@@ -1,3 +1,9 @@
+/*
+DUBOULOY Grégory
+FOUQUET Tom
+DELAMARE Bastien
+*/
+
 package tla;
 
 import java.io.BufferedReader;
@@ -31,6 +37,8 @@ public class Interpretation {
 			return Math.pow(interpreter(n.enfant(0)).doubleValue(), interpreter(n.enfant(1)).doubleValue());
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.multiply){
 			return interpreter(n.enfant(0)) * interpreter(n.enfant(1));
+		}if (n.getTypeDeNoeud() == TypeDeNoeud.divide){
+			return interpreter(n.enfant(0)) / interpreter(n.enfant(1));
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.ident){
 			return m.get(n.getValeur());
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.doublev){

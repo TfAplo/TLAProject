@@ -1,3 +1,9 @@
+/*
+DUBOULOY Grégory
+FOUQUET Tom
+DELAMARE Bastien
+*/
+
 package tla;
 
 import java.util.ArrayList;
@@ -9,12 +15,12 @@ public class AnalyseLexicale {
 	Table de transition de l'analyse lexicale
 	 */
 	private static Integer TRANSITIONS[][] = {
-			//            espace    +    *    (    )    ,	.	-	chiffre  letter
-			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,       1,      2  },
-			/*  1 */    {    106, 106, 106, 106, 106, 106,   3,	106,     1,    106  },
-			/*  2 */    {    107, 107, 107, 107, 107, 107, 107,	107, 	 2,      2  },
-			/*  3 */    {    108, 108, 108, 108, 108, 108, 108,	108, 	 3,      108},
-			/*  4 */    {    109, 109, 109, 109, 109, 109, 109,	109, 	 1,      109}
+			//            espace    +    *    (    )    ,	.	-	  /	  chiffre  letter
+			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,  110,     1,      2  },
+			/*  1 */    {    106, 106, 106, 106, 106, 106,   3,	106,  106,     1,    106  },
+			/*  2 */    {    107, 107, 107, 107, 107, 107, 107,	107,  107,     2,      2  },
+			/*  3 */    {    108, 108, 108, 108, 108, 108, 108,	108,  108,	   3,      108},
+			/*  4 */    {    109, 109, 109, 109, 109, 109, 109,	109,  109,	   1,      109}
 
 			// 101 acceptation d'un +
 			// 102 acceptation d'un *
@@ -25,6 +31,7 @@ public class AnalyseLexicale {
 			// 107 acceptation d'un identifiant ou mot clé   (retourArriere)
 			// 108 acceptation d'un double
 			// 109 acceptation d'un -
+			// 110 acceptation d'un /
 
 	};
 
@@ -91,6 +98,8 @@ public class AnalyseLexicale {
 				}else if (e == 109) {
 					tokens.add(new Token(TypeDeToken.sub, buf));
 					retourArriere();
+				}else if (e == 110) {
+					tokens.add(new Token(TypeDeToken.divide, buf));
 				}
 				// un état d'acceptation ayant été atteint, retourne à l'état 0
 				etat = 0;
@@ -138,8 +147,9 @@ public class AnalyseLexicale {
 		if (c == ',') return 5;
 		if (c == '.') return 6;
 		if (c == '-') return 7;
-		if (Character.isDigit(c)) return 8;
-		if (Character.isLetter(c)) return 9;
+		if (c == '/') return 8;
+		if (Character.isDigit(c)) return 9;
+		if (Character.isLetter(c)) return 10;
 		System.out.println("Symbole inconnu : " + c);
 		throw new IllegalCharacterException(c.toString());
 	}

@@ -1,3 +1,9 @@
+/*
+DUBOULOY Grégory
+FOUQUET Tom
+DELAMARE Bastien
+*/
+
 package tla;
 
 import java.util.List;
@@ -91,8 +97,16 @@ public class AnalyseSyntaxique {
 
 	private Noeud A() throws UnexpectedTokenException {
 
-		Noeud n = C();
-		return A_prime(n);
+		if (getTypeDeToken() == TypeDeToken.intv ||
+				getTypeDeToken() == TypeDeToken.kPow ||
+				getTypeDeToken() == TypeDeToken.ident ||
+				getTypeDeToken() == TypeDeToken.leftPar ||
+				getTypeDeToken() == TypeDeToken.doublev) {
+			Noeud n = C();
+			return A_prime(n);
+
+		}
+		throw new UnexpectedTokenException("( int ou double attendu");
 	}
 
 	/*
@@ -123,14 +137,13 @@ public class AnalyseSyntaxique {
 				getTypeDeToken() == TypeDeToken.kInput ||
 				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
-				getTypeDeToken() == TypeDeToken.sub ||
 				finAtteinte()) {
 
 			// production A' -> epsilon
 
 			return i;
 		}
-		throw new UnexpectedTokenException("* + ou ) attendu");
+		throw new UnexpectedTokenException("* + , ou ) attendu");
 
 	}
 
@@ -208,19 +221,27 @@ public class AnalyseSyntaxique {
 			return n;
 		}
 
-		throw new UnexpectedTokenException("intv, (, pow, ou ident attendu");
+		throw new UnexpectedTokenException("intv, double, (, pow, ou ident attendu");
 	}
 
 	/*
 
 	Traite la dérivation du symbole non-terminal C
 
-	C -> B C'
+	C -> D C'
 
 	 */
 	private Noeud C() throws UnexpectedTokenException{
-		Noeud n = B();
-		return C_prime(n);
+
+		if (getTypeDeToken() == TypeDeToken.intv ||
+				getTypeDeToken() == TypeDeToken.kPow ||
+				getTypeDeToken() == TypeDeToken.ident ||
+				getTypeDeToken() == TypeDeToken.leftPar ||
+				getTypeDeToken() == TypeDeToken.doublev) {
+			Noeud n = D();
+			return C_prime(n);
+		}
+		throw new UnexpectedTokenException("( int ou double attendu");
 	}
 
 	/*
@@ -254,8 +275,71 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException("* + ou ) attendu");
+		throw new UnexpectedTokenException("* + , - ou ) attendu");
 	}
+
+	/*
+
+	Traite la dérivation du symbole non-terminal D
+
+	D -> B D'
+
+	 */
+
+	private Noeud D() throws UnexpectedTokenException {
+
+		if (getTypeDeToken() == TypeDeToken.intv ||
+				getTypeDeToken() == TypeDeToken.kPow ||
+				getTypeDeToken() == TypeDeToken.ident ||
+				getTypeDeToken() == TypeDeToken.leftPar ||
+				getTypeDeToken() == TypeDeToken.doublev) {
+			Noeud n = B();
+			return D_prime(n);
+		}
+		throw new UnexpectedTokenException("( int ou double attendu");
+	}
+
+	/*
+
+	Traite la dérivation du symbole non-terminal D'
+
+	D' -> / D | epsilon
+
+	 */
+
+	private Noeud D_prime(Noeud i) throws UnexpectedTokenException {
+		//System.out.println(tokens.get(pos).getValeur());     >CASSE TOUT
+		System.out.println(pos);
+		System.out.println(getTypeDeToken());
+		if (getTypeDeToken() == TypeDeToken.divide) {
+
+			// production D' -> / D
+
+			Token t = lireToken();
+			Noeud n = new Noeud(TypeDeNoeud.divide);
+			n.ajout(i);
+			n.ajout(D());
+			return n;
+		}
+
+		if (getTypeDeToken() == TypeDeToken.add ||
+				getTypeDeToken() == TypeDeToken.rightPar ||
+				getTypeDeToken() == TypeDeToken.kInput ||
+				getTypeDeToken() == TypeDeToken.kPrint ||
+				getTypeDeToken() == TypeDeToken.comma ||
+				getTypeDeToken() == TypeDeToken.multiply ||
+				getTypeDeToken() == TypeDeToken.sub ||
+				finAtteinte()) {
+
+			// production D' -> epsilon
+
+			return i;
+		}
+		throw new UnexpectedTokenException("/ * , - ou ) attendu");
+
+	}
+
+
 
 	/*
 

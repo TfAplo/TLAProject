@@ -1,3 +1,9 @@
+/*
+DUBOULOY Grégory
+FOUQUET Tom
+DELAMARE Bastien
+*/
+
 package tla;
 
 public enum TypeDeToken {
@@ -7,6 +13,7 @@ public enum TypeDeToken {
 	leftPar,
 	rightPar,
 	comma,
+	divide,
 	intv,
 	doublev,
 	ident,
