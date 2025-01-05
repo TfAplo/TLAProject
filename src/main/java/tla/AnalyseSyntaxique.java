@@ -39,6 +39,7 @@ public class AnalyseSyntaxique {
 	private Noeud S() throws UnexpectedTokenException {
 
 		if (getTypeDeToken() == TypeDeToken.intv ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.kPow ||
 				getTypeDeToken() == TypeDeToken.ident ||
 				getTypeDeToken() == TypeDeToken.leftPar ||
@@ -49,7 +50,7 @@ public class AnalyseSyntaxique {
 			Noeud a = A();
 			return S_prime(a);
 		}
-		throw new UnexpectedTokenException("intv ou ( attendu");
+		throw new UnexpectedTokenException("intv doublev ident | ou ( attendu");
 	}
 
 	/*
@@ -74,6 +75,7 @@ public class AnalyseSyntaxique {
 		}
 
 		if (getTypeDeToken() == TypeDeToken.rightPar ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.kInput ||
 				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
@@ -84,7 +86,7 @@ public class AnalyseSyntaxique {
 			return i;
 		}
 
-		throw new UnexpectedTokenException("+ ou ) attendu");
+		throw new UnexpectedTokenException("+ , | ou ) attendu");
 	}
 
 	/*
@@ -98,6 +100,7 @@ public class AnalyseSyntaxique {
 	private Noeud A() throws UnexpectedTokenException {
 
 		if (getTypeDeToken() == TypeDeToken.intv ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.kPow ||
 				getTypeDeToken() == TypeDeToken.ident ||
 				getTypeDeToken() == TypeDeToken.leftPar ||
@@ -106,7 +109,7 @@ public class AnalyseSyntaxique {
 			return A_prime(n);
 
 		}
-		throw new UnexpectedTokenException("( int ou double attendu");
+		throw new UnexpectedTokenException("( | ident int ou double attendu");
 	}
 
 	/*
@@ -133,6 +136,7 @@ public class AnalyseSyntaxique {
 		}
 
 		if (getTypeDeToken() == TypeDeToken.add ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
 				getTypeDeToken() == TypeDeToken.kInput ||
 				getTypeDeToken() == TypeDeToken.kPrint ||
@@ -143,7 +147,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException("* + , ou ) attendu");
+		throw new UnexpectedTokenException("* + , | ou ) attendu");
 
 	}
 
@@ -221,7 +225,23 @@ public class AnalyseSyntaxique {
 			return n;
 		}
 
-		throw new UnexpectedTokenException("intv, double, (, pow, ou ident attendu");
+		if (getTypeDeToken() == TypeDeToken.absolute) {
+
+			// production B -> | S |
+
+			lireToken();
+			Noeud s = S();
+
+			if (getTypeDeToken() == TypeDeToken.absolute) {
+				lireToken();
+				Noeud a = new Noeud(TypeDeNoeud.absolute);
+				a.ajout(s);
+				return a;
+			}
+			throw new UnexpectedTokenException("| attendu");
+		}
+
+		throw new UnexpectedTokenException("intv, double, (, |, pow, ou ident attendu");
 	}
 
 	/*
@@ -234,6 +254,7 @@ public class AnalyseSyntaxique {
 	private Noeud C() throws UnexpectedTokenException{
 
 		if (getTypeDeToken() == TypeDeToken.intv ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.kPow ||
 				getTypeDeToken() == TypeDeToken.ident ||
 				getTypeDeToken() == TypeDeToken.leftPar ||
@@ -241,7 +262,7 @@ public class AnalyseSyntaxique {
 			Noeud n = D();
 			return C_prime(n);
 		}
-		throw new UnexpectedTokenException("( int ou double attendu");
+		throw new UnexpectedTokenException("( | ident int ou double attendu");
 	}
 
 	/*
@@ -265,6 +286,7 @@ public class AnalyseSyntaxique {
 
 		if (getTypeDeToken() == TypeDeToken.add ||
 				getTypeDeToken() == TypeDeToken.multiply ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
 				getTypeDeToken() == TypeDeToken.kInput ||
 				getTypeDeToken() == TypeDeToken.kPrint ||
@@ -275,7 +297,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException("* + , - ou ) attendu");
+		throw new UnexpectedTokenException("* + , - | ou ) attendu");
 	}
 
 	/*
@@ -289,6 +311,7 @@ public class AnalyseSyntaxique {
 	private Noeud D() throws UnexpectedTokenException {
 
 		if (getTypeDeToken() == TypeDeToken.intv ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.kPow ||
 				getTypeDeToken() == TypeDeToken.ident ||
 				getTypeDeToken() == TypeDeToken.leftPar ||
@@ -296,7 +319,7 @@ public class AnalyseSyntaxique {
 			Noeud n = B();
 			return D_prime(n);
 		}
-		throw new UnexpectedTokenException("( int ou double attendu");
+		throw new UnexpectedTokenException("( | ident int ou double attendu");
 	}
 
 	/*
@@ -323,6 +346,7 @@ public class AnalyseSyntaxique {
 		}
 
 		if (getTypeDeToken() == TypeDeToken.add ||
+				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
 				getTypeDeToken() == TypeDeToken.kInput ||
 				getTypeDeToken() == TypeDeToken.kPrint ||
@@ -335,7 +359,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException("/ * , - ou ) attendu");
+		throw new UnexpectedTokenException("/ + * , - | ou ) attendu");
 
 	}
 

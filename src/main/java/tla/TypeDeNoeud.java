@@ -11,5 +11,5 @@ public enum TypeDeNoeud {
 	ident, intv, doublev,
 	add, multiply, sub,
 	kInput, kPrint, kPow,
-	divide
+	divide, absolute
 }

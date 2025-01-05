@@ -39,6 +39,8 @@ public class Interpretation {
 			return interpreter(n.enfant(0)) * interpreter(n.enfant(1));
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.divide){
 			return interpreter(n.enfant(0)) / interpreter(n.enfant(1));
+		}if (n.getTypeDeNoeud() == TypeDeNoeud.absolute) {
+			return Math.abs(interpreter(n.enfant(0)));
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.ident){
 			return m.get(n.getValeur());
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.doublev){

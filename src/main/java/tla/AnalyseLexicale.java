@@ -15,12 +15,12 @@ public class AnalyseLexicale {
 	Table de transition de l'analyse lexicale
 	 */
 	private static Integer TRANSITIONS[][] = {
-			//            espace    +    *    (    )    ,	.	-	  /	  chiffre  letter
-			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,  110,     1,      2  },
-			/*  1 */    {    106, 106, 106, 106, 106, 106,   3,	106,  106,     1,    106  },
-			/*  2 */    {    107, 107, 107, 107, 107, 107, 107,	107,  107,     2,      2  },
-			/*  3 */    {    108, 108, 108, 108, 108, 108, 108,	108,  108,	   3,      108},
-			/*  4 */    {    109, 109, 109, 109, 109, 109, 109,	109,  109,	   1,      109}
+			//            espace    +    *    (    )    ,	.	-	  /	  	|	chiffre  letter
+			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,    110,  111, 	1,      2  },
+			/*  1 */    {    106, 106, 106, 106, 106, 106,   3,	106,  106,  106, 	1,    106  },
+			/*  2 */    {    107, 107, 107, 107, 107, 107, 107,	107,  107,  107, 	2,      2  },
+			/*  3 */    {    108, 108, 108, 108, 108, 108, 108,	108,  108,	108, 	3,    108  },
+			/*  4 */    {    109, 109, 109, 109, 109, 109, 109,	109,  109,	109, 	1,    109  }
 
 			// 101 acceptation d'un +
 			// 102 acceptation d'un *
@@ -32,6 +32,7 @@ public class AnalyseLexicale {
 			// 108 acceptation d'un double
 			// 109 acceptation d'un -
 			// 110 acceptation d'un /
+			// 111 acceptation d'un |
 
 	};
 
@@ -100,6 +101,8 @@ public class AnalyseLexicale {
 					retourArriere();
 				}else if (e == 110) {
 					tokens.add(new Token(TypeDeToken.divide, buf));
+				}else if (e == 111) {
+					tokens.add(new Token(TypeDeToken.absolute, buf));
 				}
 				// un état d'acceptation ayant été atteint, retourne à l'état 0
 				etat = 0;
@@ -148,8 +151,9 @@ public class AnalyseLexicale {
 		if (c == '.') return 6;
 		if (c == '-') return 7;
 		if (c == '/') return 8;
-		if (Character.isDigit(c)) return 9;
-		if (Character.isLetter(c)) return 10;
+		if (c == '|') return 9;
+		if (Character.isDigit(c)) return 10;
+		if (Character.isLetter(c)) return 11;
 		System.out.println("Symbole inconnu : " + c);
 		throw new IllegalCharacterException(c.toString());
 	}

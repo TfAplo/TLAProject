@@ -14,6 +14,7 @@ public enum TypeDeToken {
 	rightPar,
 	comma,
 	divide,
+	absolute,
 	intv,
 	doublev,
 	ident,
