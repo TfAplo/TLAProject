@@ -20,5 +20,7 @@ public enum TypeDeToken {
 	ident,
 	kInput,
 	kPrint,
-	kPow
+	kPow,
+	kCos,
+	kSin
 }

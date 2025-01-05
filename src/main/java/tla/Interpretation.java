@@ -45,6 +45,10 @@ public class Interpretation {
 			return m.get(n.getValeur());
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.doublev){
 			return Double.parseDouble(n.getValeur());
+		}if (n.getTypeDeNoeud() == TypeDeNoeud.kCos){
+			return Math.cos(interpreter(n.enfant(0)).doubleValue());
+		}if (n.getTypeDeNoeud() == TypeDeNoeud.kSin){
+			return Math.sin(interpreter(n.enfant(0)).doubleValue());
 		}
 	return null;
 	}
