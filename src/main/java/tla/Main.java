@@ -52,7 +52,7 @@ public class Main {
         /*
         JTextField proposant à l'utilisateur de taper une fonction
         */
-        JTextField textInput = new JTextField(10);
+        JTextField textInput = new JTextField(16);
         topPanel.add(textInput);
 
         JButton btnOk = new JButton("Ok");
