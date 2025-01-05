@@ -34,7 +34,7 @@ public class Plot {
      * effectue l'analyse lexicale et syntaxique de la chaine entree,
      * affiche et interprète l'arbre syntaxique abstrait
      */
-    void setFunction(String entree) throws LexicalErrorException, SyntaxErrorException {
+    void setFunction(String entree) throws Exception {
         this.function = entree;
         try{
             List<Token> tokens = new AnalyseLexicale().analyse(entree);
@@ -42,9 +42,11 @@ public class Plot {
             Noeud.afficheNoeud(racine, 0);
         }catch (LexicalErrorException e) {
             throw new LexicalErrorException(e.getPosition(), e.getErrorType());
-        } catch (SyntaxErrorException e) {
-            throw new SyntaxErrorException(e.getPosition(), e.getExpectedToken());
-        } catch (Exception e) {
+        } catch (UnexpectedTokenException e) {
+            throw new UnexpectedTokenException(e.getPosition(), e.getExpectedToken());
+        } catch (IndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException(e.getMessage());
+        }catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

@@ -36,8 +36,6 @@ public class AnalyseSyntaxique {
 	 */
 
 	private Noeud S() throws UnexpectedTokenException {
-		System.out.println(getTypeDeToken());
-		System.out.println(tokens.get(pos).getValeur());
 		if (getTypeDeToken() == TypeDeToken.intv ||
 				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.kPow ||
@@ -138,7 +136,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or )");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or ) A_prime");
 	}
 
 	/*
@@ -237,11 +235,11 @@ public class AnalyseSyntaxique {
 
 	Traite la dérivation du symbole non-terminal C
 
-	C -> B C'
+	C -> D C'
 
 	 */
 	private Noeud C() throws UnexpectedTokenException{
-		Noeud n = B();
+		Noeud n = D();
 		return C_prime(n);
 	}
 
@@ -277,7 +275,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or )");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or ) C_prime");
 	}
 
 	/*
@@ -289,17 +287,8 @@ public class AnalyseSyntaxique {
 	 */
 
 	private Noeud D() throws UnexpectedTokenException {
-
-		if (getTypeDeToken() == TypeDeToken.intv ||
-				getTypeDeToken() == TypeDeToken.absolute ||
-				getTypeDeToken() == TypeDeToken.kPow ||
-				getTypeDeToken() == TypeDeToken.ident ||
-				getTypeDeToken() == TypeDeToken.leftPar ||
-				getTypeDeToken() == TypeDeToken.doublev) {
-			Noeud n = B();
-			return D_prime(n);
-		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"( | ident int ou double attendu");
+		Noeud n = B();
+		return D_prime(n);
 	}
 
 	/*
@@ -311,9 +300,6 @@ public class AnalyseSyntaxique {
 	 */
 
 	private Noeud D_prime(Noeud i) throws UnexpectedTokenException {
-		//System.out.println(tokens.get(pos).getValeur());     >CASSE TOUT
-		System.out.println(pos);
-		System.out.println(getTypeDeToken());
 		if (getTypeDeToken() == TypeDeToken.divide) {
 
 			// production D' -> / D

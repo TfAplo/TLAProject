@@ -52,7 +52,7 @@ public class Main {
         /*
         JTextField proposant à l'utilisateur de taper une fonction
         */
-        JTextField textInput = new JTextField(10);
+        JTextField textInput = new JTextField(16);
         topPanel.add(textInput);
 
         JButton btnOk = new JButton("Ok");
@@ -70,10 +70,10 @@ public class Main {
             try {
                 plot.setFunction(textInput.getText());
                 widgetTrace.repaint();
-            } catch (LexicalErrorException e) {
-                JOptionPane.showMessageDialog(frame, "Error at position " + e.getPosition() + ": " + e.getErrorType(), "Lexical Error", JOptionPane.ERROR_MESSAGE);
-            } catch (SyntaxErrorException e) {
+            } catch (UnexpectedTokenException e) {
                 JOptionPane.showMessageDialog(frame, "Syntax error at position " + e.getPosition() + ": expected " + e.getExpectedToken(), "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IndexOutOfBoundsException e){
+                JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: ), | ", "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -83,10 +83,10 @@ public class Main {
             try {
                 plot.setFunction(textInput.getText());
                 widgetTrace.repaint();
-            } catch (LexicalErrorException e) {
-                JOptionPane.showMessageDialog(frame, "Error at position " + e.getPosition() + ": " + e.getErrorType(), "Lexical Error", JOptionPane.ERROR_MESSAGE);
-            } catch (SyntaxErrorException e) {
+            } catch (UnexpectedTokenException e) {
                 JOptionPane.showMessageDialog(frame, "Syntax error at position " + e.getPosition() + ": expected " + e.getExpectedToken(), "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IndexOutOfBoundsException e){
+                JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: ), | ", "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
