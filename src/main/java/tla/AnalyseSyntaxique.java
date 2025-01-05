@@ -104,20 +104,17 @@ public class AnalyseSyntaxique {
 
 	Traite la dérivation du symbole non-terminal A'
 
-	A' -> * A | epsilon
+	A' -> - A | epsilon
 
 	 */
 
 	private Noeud A_prime(Noeud i) throws UnexpectedTokenException {
-//		System.out.println(tokens.get(pos).getValeur());
-//		System.out.println(pos);
-//		System.out.println(getTypeDeToken());
-		if (getTypeDeToken() == TypeDeToken.multiply) {
+		if (getTypeDeToken() == TypeDeToken.sub) {
 
-			// production A' -> * A
+			// production A' -> - A
 
 			Token t = lireToken();
-			Noeud n = new Noeud(TypeDeNoeud.multiply);
+			Noeud n = new Noeud(TypeDeNoeud.sub);
 			n.ajout(i);
 			n.ajout(A());
 			return n;
@@ -129,7 +126,6 @@ public class AnalyseSyntaxique {
 				getTypeDeToken() == TypeDeToken.kInput ||
 				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
-				getTypeDeToken() == TypeDeToken.sub ||
 				finAtteinte()) {
 
 			// production A' -> epsilon
@@ -247,23 +243,23 @@ public class AnalyseSyntaxique {
 
 	Traite la dérivation du symbole non-terminal C'
 
-	C' -> ε | - C
+	C' -> ε | * C
 
 	 */
 	private Noeud C_prime(Noeud i) throws UnexpectedTokenException{
-		if (getTypeDeToken() == TypeDeToken.sub) {
+		if (getTypeDeToken() == TypeDeToken.multiply) {
 
-			// production C' -> - C
+			// production C' -> * C
 
 			Token t = lireToken();
-			Noeud n = new Noeud(TypeDeNoeud.sub);
+			Noeud n = new Noeud(TypeDeNoeud.multiply);
 			n.ajout(i);
 			n.ajout(C());
 			return n;
 		}
 
 		if (getTypeDeToken() == TypeDeToken.add ||
-				getTypeDeToken() == TypeDeToken.multiply ||
+				getTypeDeToken() == TypeDeToken.sub ||
 				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
 				getTypeDeToken() == TypeDeToken.kInput ||
