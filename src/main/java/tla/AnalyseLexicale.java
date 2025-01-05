@@ -5,9 +5,6 @@ import java.util.List;
 
 public class AnalyseLexicale {
 
-	/*
-	Table de transition de l'analyse lexicale
-	 */
 	private static Integer TRANSITIONS[][] = {
 			//            espace    +    *    (    )    ,	.	-	chiffre  letter
 			/*  0 */    {      0, 101, 102, 103, 104, 105,   3,	4,       1,      2  },
@@ -25,87 +22,64 @@ public class AnalyseLexicale {
 			// 107 acceptation d'un identifiant ou mot clé   (retourArriere)
 			// 108 acceptation d'un double
 			// 109 acceptation d'un -
-
 	};
 
 	private String entree;
 	private int pos;
-
 	private static final int ETAT_INITIAL = 0;
 
-	/*
-	effectue l'analyse lexicale et retourne une liste de Token
-	 */
 	public List<Token> analyse(String entree) throws Exception {
-
-		this.entree=entree;
+		this.entree = entree;
 		pos = 0;
-
 		List<Token> tokens = new ArrayList<>();
-
-		/* copie des symboles en entrée
-		- permet de distinguer les mots-clés des identifiants
-		- permet de conserver une copie des valeurs particulières des tokens de type ident et intv
-		 */
 		String buf = "";
-
 		Integer etat = ETAT_INITIAL;
-
 		Character c;
 		do {
 			c = lireCaractere();
 			Integer e = TRANSITIONS[etat][indiceSymbole(c)];
 			if (e == null) {
-				System.out.println("pas de transition depuis état " + etat + " avec symbole " + c);
-				throw new LexicalErrorException("pas de transition depuis état " + etat + " avec symbole " + c);
+				throw new LexicalErrorException(pos - 1, "No transition from state " + etat + " with symbol " + c);
 			}
-			// cas particulier lorsqu'un état d'acceptation est atteint
 			if (e >= 100) {
 				if (e == 101) {
-					tokens.add(new Token(TypeDeToken.add));
+					tokens.add(new Token(TypeDeToken.add, pos - 1));
 				} else if (e == 102) {
-					tokens.add(new Token(TypeDeToken.multiply));
+					tokens.add(new Token(TypeDeToken.multiply, pos - 1));
 				} else if (e == 103) {
-					tokens.add(new Token(TypeDeToken.leftPar));
+					tokens.add(new Token(TypeDeToken.leftPar, pos - 1));
 				} else if (e == 104) {
-					tokens.add(new Token(TypeDeToken.rightPar));
+					tokens.add(new Token(TypeDeToken.rightPar, pos - 1));
 				} else if (e == 105) {
-					tokens.add(new Token(TypeDeToken.comma));
+					tokens.add(new Token(TypeDeToken.comma, pos - 1));
 				} else if (e == 106) {
-					tokens.add(new Token(TypeDeToken.intv, buf));
+					tokens.add(new Token(TypeDeToken.intv, buf, pos - buf.length()));
 					retourArriere();
 				} else if (e == 107) {
 					if (buf.equals("input")) {
-						tokens.add(new Token(TypeDeToken.kInput));
+						tokens.add(new Token(TypeDeToken.kInput, pos - buf.length()));
 					} else if (buf.equals("print")) {
-						tokens.add(new Token(TypeDeToken.kPrint));
+						tokens.add(new Token(TypeDeToken.kPrint, pos - buf.length()));
 					} else if (buf.equals("pow")) {
-						tokens.add(new Token(TypeDeToken.kPow));
+						tokens.add(new Token(TypeDeToken.kPow, pos - buf.length()));
 					} else {
-						tokens.add(new Token(TypeDeToken.ident, buf));
+						tokens.add(new Token(TypeDeToken.ident, buf, pos - buf.length()));
 					}
 					retourArriere();
 				} else if (e == 108) {
-					tokens.add(new Token(TypeDeToken.doublev, buf));
+					tokens.add(new Token(TypeDeToken.doublev, buf, pos - buf.length()));
 					retourArriere();
-				}else if (e == 109) {
-					tokens.add(new Token(TypeDeToken.sub, buf));
+				} else if (e == 109) {
+					tokens.add(new Token(TypeDeToken.sub, pos - 1));
 					retourArriere();
 				}
-				// un état d'acceptation ayant été atteint, retourne à l'état 0
 				etat = 0;
-				// reinitialise buf
 				buf = "";
 			} else {
-				// enregistre le nouvel état
 				etat = e;
-				// ajoute le symbole qui vient d'être examiné à buf
-				// sauf s'il s'agit un espace ou assimilé
-				if (etat>0) buf = buf + c;
+				if (etat > 0) buf = buf + c;
 			}
-
 		} while (c != null);
-
 		return tokens;
 	}
 
@@ -124,10 +98,6 @@ public class AnalyseLexicale {
 		pos = pos - 1;
 	}
 
-	/*
-	Pour chaque symbole terminal acceptable en entrée de l'analyse syntaxique
-	retourne un indice identifiant soit un symbole, soit une classe de symbole :
-	 */
 	private static int indiceSymbole(Character c) throws IllegalCharacterException {
 		if (c == null) return 0;
 		if (Character.isWhitespace(c)) return 0;
@@ -140,8 +110,6 @@ public class AnalyseLexicale {
 		if (c == '-') return 7;
 		if (Character.isDigit(c)) return 8;
 		if (Character.isLetter(c)) return 9;
-		System.out.println("Symbole inconnu : " + c);
-		throw new IllegalCharacterException(c.toString());
+		throw new IllegalCharacterException("Unknown symbol: " + c);
 	}
-
 }

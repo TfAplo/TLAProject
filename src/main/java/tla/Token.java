@@ -4,14 +4,17 @@ public class Token {
 
 	private TypeDeToken typeDeToken;
 	private String valeur;
+	private int position;
 
-	public Token(TypeDeToken typeDeToken, String value) {
-		this.typeDeToken=typeDeToken;
-		this.valeur=value;
+	public Token(TypeDeToken typeDeToken, String value, int position) {
+		this.typeDeToken = typeDeToken;
+		this.valeur = value;
+		this.position = position;
 	}
 
-	public Token(TypeDeToken typeDeToken) {
-		this.typeDeToken=typeDeToken;
+	public Token(TypeDeToken typeDeToken, int position) {
+		this.typeDeToken = typeDeToken;
+		this.position = position;
 	}
 
 	public TypeDeToken getTypeDeToken() {
@@ -22,10 +25,13 @@ public class Token {
 		return valeur;
 	}
 
+	public int getPosition() {
+		return position;
+	}
+
 	public String toString() {
 		String res = typeDeToken.toString();
 		if (valeur != null) res = res + "(" + valeur + ")";
 		return res;
 	}
-
 }

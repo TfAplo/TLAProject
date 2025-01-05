@@ -52,7 +52,7 @@ public class Main {
         /*
         JTextField proposant à l'utilisateur de taper une fonction
         */
-        JTextField textInput = new JTextField(16);
+        JTextField textInput = new JTextField(10);
         topPanel.add(textInput);
 
         JButton btnOk = new JButton("Ok");
@@ -67,12 +67,28 @@ public class Main {
         // gestionnaires des différentes actions sur l'IHM
 
         textInput.addActionListener(event -> {
-            plot.setFunction(textInput.getText());
+            try {
+                plot.setFunction(textInput.getText());
+            } catch (LexicalErrorException e) {
+                JOptionPane.showMessageDialog(frame, "Error at position " + e.getPosition() + ": " + e.getErrorType(), "Lexical Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SyntaxErrorException e) {
+                JOptionPane.showMessageDialog(frame, "Syntax error at position " + e.getPosition() + ": expected " + e.getExpectedToken(), "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             widgetTrace.repaint();
         });
 
         btnOk.addActionListener(event -> {
-            plot.setFunction(textInput.getText());
+            try {
+                plot.setFunction(textInput.getText());
+            } catch (LexicalErrorException e) {
+                JOptionPane.showMessageDialog(frame, "Error at position " + e.getPosition() + ": " + e.getErrorType(), "Lexical Error", JOptionPane.ERROR_MESSAGE);
+            } catch (SyntaxErrorException e) {
+                JOptionPane.showMessageDialog(frame, "Syntax error at position " + e.getPosition() + ": expected " + e.getExpectedToken(), "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             widgetTrace.repaint();
         });
 

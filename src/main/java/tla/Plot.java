@@ -34,16 +34,22 @@ public class Plot {
      * effectue l'analyse lexicale et syntaxique de la chaine entree,
      * affiche et interprète l'arbre syntaxique abstrait
      */
-    void setFunction(String entree) {
+    void setFunction(String entree) throws LexicalErrorException, SyntaxErrorException {
         this.function = entree;
         try{
             List<Token> tokens = new AnalyseLexicale().analyse(entree);
             this.racine = new AnalyseSyntaxique().analyse(tokens);
             Noeud.afficheNoeud(racine, 0);
-        }catch (Exception e) {
-            e.printStackTrace(System.out);
+        }catch (LexicalErrorException e) {
+            throw new LexicalErrorException(e.getPosition(), e.getErrorType());
+        } catch (SyntaxErrorException e) {
+            throw new SyntaxErrorException(e.getPosition(), e.getExpectedToken());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
+
+
 
     /**
      * point d'entrée d'affectation du range par l'IHM
