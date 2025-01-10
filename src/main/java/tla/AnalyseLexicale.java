@@ -85,6 +85,8 @@ public class AnalyseLexicale {
 						tokens.add(new Token(TypeDeToken.kCos, pos - buf.length()));
 					}else if (buf.equals("sin")) {
 						tokens.add(new Token(TypeDeToken.kSin, pos - buf.length()));
+					}else if (buf.equals("e")) {
+						tokens.add(new Token(TypeDeToken.kSci, pos - buf.length()));
 					} else {
 						tokens.add(new Token(TypeDeToken.ident, buf, pos - buf.length()));
 					}

@@ -22,5 +22,6 @@ public enum TypeDeToken {
 	kPrint,
 	kPow,
 	kCos,
-	kSin
+	kSin,
+	kSci
 }

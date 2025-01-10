@@ -41,6 +41,7 @@ public class AnalyseSyntaxique {
 				getTypeDeToken() == TypeDeToken.kPow ||
 				getTypeDeToken() == TypeDeToken.kSin ||
 				getTypeDeToken() == TypeDeToken.kCos ||
+				getTypeDeToken() == TypeDeToken.kSci ||
 				getTypeDeToken() == TypeDeToken.ident ||
 				getTypeDeToken() == TypeDeToken.leftPar ||
 				getTypeDeToken() == TypeDeToken.doublev) {
@@ -242,6 +243,32 @@ public class AnalyseSyntaxique {
 			}
 
 			Noeud n = new Noeud(TypeDeNoeud.kSin);
+			n.ajout(S());
+
+			if (lireToken().getTypeDeToken() != TypeDeToken.rightPar) {
+				throw new UnexpectedTokenException(tokens.get(pos).getPosition(), ")");
+			}
+
+			return n;
+		}
+
+		if (getTypeDeToken() == TypeDeToken.kSci) {
+
+			// production B -> e ( S , S )
+
+			lireToken(); // avance au token suivant
+
+			if (lireToken().getTypeDeToken() != TypeDeToken.leftPar) {
+				throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "( ");
+			}
+
+			Noeud n = new Noeud(TypeDeNoeud.kSci);
+			n.ajout(S());
+
+			if (lireToken().getTypeDeToken() != TypeDeToken.comma) {
+				throw new UnexpectedTokenException(tokens.get(pos).getPosition(), ", ");
+			}
+
 			n.ajout(S());
 
 			if (lireToken().getTypeDeToken() != TypeDeToken.rightPar) {

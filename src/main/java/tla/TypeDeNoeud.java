@@ -10,6 +10,6 @@ public enum TypeDeNoeud {
 	statement,
 	ident, intv, doublev,
 	add, multiply, sub,
-	kInput, kPrint, kPow, kCos, kSin,
+	kInput, kPrint, kPow, kCos, kSin,kSci,
 	divide, absolute
 }
