@@ -49,6 +49,8 @@ public class Interpretation {
 			return Math.cos(interpreter(n.enfant(0)).doubleValue());
 		}if (n.getTypeDeNoeud() == TypeDeNoeud.kSin){
 			return Math.sin(interpreter(n.enfant(0)).doubleValue());
+		}if (n.getTypeDeNoeud() == TypeDeNoeud.kSci) {
+			return interpreter(n.enfant(0)) * Math.pow(10, interpreter(n.enfant(1)));
 		}
 	return null;
 	}

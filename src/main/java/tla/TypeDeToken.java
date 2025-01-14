@@ -20,5 +20,6 @@ public enum TypeDeToken {
 	ident,
 	kPow,
 	kCos,
-	kSin
+	kSin,
+	kSci
 }
