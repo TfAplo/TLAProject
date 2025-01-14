@@ -22,9 +22,11 @@ public class Interpretation {
 		this.m = new HashMap<String, Double>();
 	}
 
-	/*
-	interprete le noeud n
-	et appel récursif sur les noeuds enfants de n
+	/**
+	 * interprete le noeud n
+	 * 	et appel récursif sur les noeuds enfants de n
+	 * @param n
+	 * @return
 	 */
 	public Double interpreter(Noeud n) {
 		if(n.getTypeDeNoeud() == TypeDeNoeud.intv){
@@ -55,8 +57,9 @@ public class Interpretation {
 	return null;
 	}
 
-	/*
-	met a jour x dans le hashmap
+	/**
+	 * met a jour x dans le hashmap
+	 * @param x
 	 */
 	public void updateMap(double x) {
 		m.put("-x",-x);

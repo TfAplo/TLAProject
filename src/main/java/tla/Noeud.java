@@ -50,9 +50,11 @@ public class Noeud {
 		return s + ">";
 	}
 
-	/*
-	affiche le noeud n d'un arbre syntaxique avec un niveau d'indentation depth,
-	et appels récursifs sur les noeuds enfants de n à un niveau d'indendation depth+1
+	/**
+	 * affiche le noeud n d'un arbre syntaxique avec un niveau d'indentation depth,
+	 * 	et appels récursifs sur les noeuds enfants de n à un niveau d'indendation depth+1
+	 * @param n
+	 * @param profondeur
 	 */
 	static void afficheNoeud(Noeud n, int profondeur) {
 		String s = "";

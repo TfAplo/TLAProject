@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AnalyseLexicale {
 
-	/*
+	/**
 	Table de transition de l'analyse lexicale
 	 */
 	private static Integer TRANSITIONS[][] = {
@@ -41,8 +41,11 @@ public class AnalyseLexicale {
 	private int pos;
 	private static final int ETAT_INITIAL = 0;
 
-	/*
-	effectue l'analyse lexicale et retourne une liste de Token
+	/**
+	 * effectue l'analyse lexicale et retourne une liste de Token
+	 * @param entree
+	 * @return tokens
+	 * @throws Exception
 	 */
 	public List<Token> analyse(String entree) throws Exception {
 		this.entree = entree;
@@ -134,9 +137,12 @@ public class AnalyseLexicale {
 		pos = pos - 1;
 	}
 
-	/*
-	Pour chaque symbole terminal acceptable en entrée de l'analyse syntaxique
-	retourne un indice identifiant soit un symbole, soit une classe de symbole :
+	/**
+	 * Pour chaque symbole terminal acceptable en entrée de l'analyse syntaxique
+	 * 	retourne un indice identifiant soit un symbole, soit une classe de symbole :
+	 * @param c
+	 * @return int
+	 * @throws IllegalCharacterException
 	 */
 	private static int indiceSymbole(Character c) throws IllegalCharacterException {
 		if (c == null) return 0;

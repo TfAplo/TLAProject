@@ -13,9 +13,12 @@ public class AnalyseSyntaxique {
 	private int pos;
 	private List<Token> tokens;
 
-	/*
-	effectue l'analyse syntaxique à partir de la liste de tokens
-	et retourne le noeud racine de l'arbre syntaxique abstrait
+	/**
+	 * effectue l'analyse syntaxique à partir de la liste de tokens
+	 * 	et retourne le noeud racine de l'arbre syntaxique abstrait
+	 * @param tokens
+	 * @return s (arbre synthaxique)
+	 * @throws Exception
 	 */
 	public Noeud analyse(List<Token> tokens) throws Exception {
 		pos = 0;
@@ -27,14 +30,13 @@ public class AnalyseSyntaxique {
 		return s;
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal S
-
-	S -> A S'
-
+	/**
+	 * Traite la dérivation du symbole non-terminal S
+	 *
+	 * 	S -> A S'
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud S() throws UnexpectedTokenException {
 		if (getTypeDeToken() == TypeDeToken.intv ||
 				getTypeDeToken() == TypeDeToken.absolute ||
@@ -54,14 +56,14 @@ public class AnalyseSyntaxique {
 		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "intv, (, |, pow, cos, sin, e, or ident ");
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal Expr'
-
-	S' -> + S | epsilon
-
+	/**
+	 * Traite la dérivation du symbole non-terminal Expr'
+	 *
+	 * 	S' -> + S | epsilon
+	 * @param i
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud S_prime(Noeud i) throws UnexpectedTokenException {
 
 		if (getTypeDeToken() == TypeDeToken.add) {
@@ -87,28 +89,27 @@ public class AnalyseSyntaxique {
 		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "+, ), | or ,");
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal A
-
-	A -> C A'
-
+	/**
+	 * Traite la dérivation du symbole non-terminal A
+	 *
+	 * 	A -> C A'
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud A() throws UnexpectedTokenException {
 
 		Noeud n = C();
 		return A_prime(n);
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal A'
-
-	A' -> - A | epsilon
-
+	/**
+	 * Traite la dérivation du symbole non-terminal A'
+	 *
+	 * 	A' -> - A | epsilon
+	 * @param i
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud A_prime(Noeud i) throws UnexpectedTokenException {
 		if (getTypeDeToken() == TypeDeToken.sub) {
 
@@ -134,14 +135,13 @@ public class AnalyseSyntaxique {
 		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "- , + | or )");
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal B
-
-	B -> ( S ) | intv | doublev | ident | pow ( S , S ) | | S | | cos( S ) | sin( S )
-
+	/**
+	 * Traite la dérivation du symbole non-terminal B
+	 *
+	 * 	B -> ( S ) | intv | doublev | ident | pow ( S , S ) | | S | | cos( S ) | sin( S ) | e ( S , S )
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud B() throws UnexpectedTokenException {
 
 		if (getTypeDeToken() == TypeDeToken.leftPar) {
@@ -292,24 +292,25 @@ public class AnalyseSyntaxique {
 		throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"intv, double, (, |, pow, cos, sin, e ou ident attendu");
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal C
-
-	C -> D C'
-
+	/**
+	 * Traite la dérivation du symbole non-terminal C
+	 *
+	 * 	C -> D C'
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
 	private Noeud C() throws UnexpectedTokenException{
 		Noeud n = D();
 		return C_prime(n);
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal C'
-
-	C' -> ε | * C
-
+	/**
+	 * Traite la dérivation du symbole non-terminal C'
+	 *
+	 * 	C' -> ε | * C
+	 * @param i
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
 	private Noeud C_prime(Noeud i) throws UnexpectedTokenException{
 		if (getTypeDeToken() == TypeDeToken.multiply) {
@@ -337,27 +338,26 @@ public class AnalyseSyntaxique {
 		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + - | or )");
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal D
-
-	D -> E D'
-
+	/**
+	 * Traite la dérivation du symbole non-terminal D
+	 *
+	 * 	D -> E D'
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud D() throws UnexpectedTokenException {
 		Noeud n = E();
 		return D_prime(n);
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal D'
-
-	D' -> / D | epsilon
-
+	/**
+	 * Traite la dérivation du symbole non-terminal D'
+	 *
+	 * 	D' -> / D | epsilon
+	 * @param i
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud D_prime(Noeud i) throws UnexpectedTokenException {
 		if (getTypeDeToken() == TypeDeToken.divide) {
 
@@ -386,27 +386,26 @@ public class AnalyseSyntaxique {
 
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal E
-
-	E -> B E'
-
+	/**
+	 * Traite la dérivation du symbole non-terminal E
+	 *
+	 * 	E -> B E'
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud E() throws UnexpectedTokenException {
 		Noeud n = B();
 		return E_prime(n);
 	}
 
-	/*
-
-	Traite la dérivation du symbole non-terminal E'
-
-	E' -> ^ E | epsilon
-
+	/**
+	 * Traite la dérivation du symbole non-terminal E'
+	 *
+	 * 	E' -> ^ E | epsilon
+	 * @param i
+	 * @return
+	 * @throws UnexpectedTokenException
 	 */
-
 	private Noeud E_prime(Noeud i) throws UnexpectedTokenException {
 		if (getTypeDeToken() == TypeDeToken.kPow) {
 
@@ -452,6 +451,12 @@ public class AnalyseSyntaxique {
 	 * Retourne la classe du prochain token à lire
 	 * SANS AVANCER au token suivant
 	 */
+
+	/**
+	 * Retourne la classe du prochain token à lire
+	 * SANS AVANCER au token suivant
+	 * @return TypeDeToken
+	 */
 	private TypeDeToken getTypeDeToken() {
 		if (pos >= tokens.size()) {
 			return null;
@@ -463,6 +468,12 @@ public class AnalyseSyntaxique {
 	/*
 	 * Retourne le prochain token à lire
 	 * ET AVANCE au token suivant
+	 */
+
+	/**
+	 * Retourne le prochain token à lire
+	 * ET AVANCE au token suivant
+	 * @return
 	 */
 	private Token lireToken() {
 		if (pos >= tokens.size()) {
