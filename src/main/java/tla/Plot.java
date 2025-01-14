@@ -48,6 +48,8 @@ public class Plot {
             throw new IndexOutOfBoundsException(e.getMessage());
         } catch (NullPointerException e) {
             throw new NullPointerException(e.getMessage());
+        } catch (IllegalCharacterException e) {
+            throw new IllegalCharacterException(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

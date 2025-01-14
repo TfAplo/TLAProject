@@ -79,6 +79,8 @@ public class Main {
                 JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: ), | ", "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (NullPointerException e) {
                 JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: )", "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            } catch (IllegalCharacterException e) {
+                JOptionPane.showMessageDialog(frame, "caractere invalide", "Caracter Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -94,6 +96,8 @@ public class Main {
                 JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: ), | ", "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (NullPointerException e) {
                 JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: )", "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            }catch (IllegalCharacterException e) {
+                JOptionPane.showMessageDialog(frame, "caractere invalide", "Caracter Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }

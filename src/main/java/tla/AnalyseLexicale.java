@@ -83,8 +83,10 @@ public class AnalyseLexicale {
 						tokens.add(new Token(TypeDeToken.kSin, pos - buf.length()));
 					}else if (buf.equals("e")) {
 						tokens.add(new Token(TypeDeToken.kSci, pos - buf.length()));
-					} else {
+					} else if (buf.equals("x") || buf.equals("-x")) {
 						tokens.add(new Token(TypeDeToken.ident, buf, pos - buf.length()));
+					}else{
+						throw new IllegalCharacterException("caractère entré invalide");
 					}
 					retourArriere();
 				} else if (e == 108) {
