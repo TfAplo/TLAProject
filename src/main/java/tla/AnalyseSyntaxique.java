@@ -51,7 +51,7 @@ public class AnalyseSyntaxique {
 			Noeud a = A();
 			return S_prime(a);
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "intv, (, |, pow, cos, sin, e, or ident");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "intv, (, |, pow, cos, sin, e, or ident ");
 	}
 
 	/*
