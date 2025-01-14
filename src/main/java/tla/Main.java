@@ -49,6 +49,9 @@ public class Main {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
+        JLabel label = new JLabel("f(x)=");
+        topPanel.add(label);
+
         /*
         JTextField proposant à l'utilisateur de taper une fonction
         */
