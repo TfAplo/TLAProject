@@ -39,7 +39,6 @@ public class AnalyseLexicale {
 
 	private String entree;
 	private int pos;
-
 	private static final int ETAT_INITIAL = 0;
 
 	/*
@@ -90,6 +89,7 @@ public class AnalyseLexicale {
 					}
 					retourArriere();
 				} else if (e == 108) {
+					if (buf.equals(".")){buf = ".0";}
 					tokens.add(new Token(TypeDeToken.doublev, buf, pos - buf.length()));
 					retourArriere();
 				} else if (e == 109) {
