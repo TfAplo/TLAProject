@@ -57,6 +57,7 @@ public class Interpretation {
 	met a jour x dans le hashmap
 	 */
 	public void updateMap(double x) {
+		m.put("-x",-x);
 		m.put("x",x);
 	}
 }
