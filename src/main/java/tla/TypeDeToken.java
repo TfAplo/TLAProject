@@ -18,8 +18,6 @@ public enum TypeDeToken {
 	intv,
 	doublev,
 	ident,
-	kInput,
-	kPrint,
 	kPow,
 	kCos,
 	kSin

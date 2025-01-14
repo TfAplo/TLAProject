@@ -29,7 +29,7 @@ public class AnalyseLexicale {
 			// 105 acceptation d'un ,
 			// 106 acceptation d'un entier                   (retourArriere)
 			// 107 acceptation d'un identifiant ou mot clé   (retourArriere)
-			// 108 acceptation d'un double
+			// 108 acceptation d'un double					 (retourArriere)
 			// 109 acceptation d'un -
 			// 110 acceptation d'un /
 			// 111 acceptation d'un |
@@ -75,11 +75,7 @@ public class AnalyseLexicale {
 					tokens.add(new Token(TypeDeToken.intv, buf, pos - buf.length()));
 					retourArriere();
 				} else if (e == 107) {
-					if (buf.equals("input")) {
-						tokens.add(new Token(TypeDeToken.kInput, pos - buf.length()));
-					} else if (buf.equals("print")) {
-						tokens.add(new Token(TypeDeToken.kPrint, pos - buf.length()));
-					} else if (buf.equals("pow")) {
+					if (buf.equals("pow")) {
 						tokens.add(new Token(TypeDeToken.kPow, pos - buf.length()));
 					}else if (buf.equals("cos")) {
 						tokens.add(new Token(TypeDeToken.kCos, pos - buf.length()));
@@ -153,7 +149,6 @@ public class AnalyseLexicale {
 		if (c == '^') return 10;
 		if (Character.isDigit(c)) return 11;
 		if (Character.isLetter(c)) return 12;
-		System.out.println("Symbole inconnu : " + c);
 		throw new IllegalCharacterException(c.toString());
 	}
 

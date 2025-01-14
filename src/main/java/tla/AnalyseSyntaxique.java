@@ -50,7 +50,7 @@ public class AnalyseSyntaxique {
 			Noeud a = A();
 			return S_prime(a);
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "intv, (, pow, or ident");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "intv, (, |, pow, cos, sin, e, or ident");
 	}
 
 	/*
@@ -76,8 +76,6 @@ public class AnalyseSyntaxique {
 
 		if (getTypeDeToken() == TypeDeToken.rightPar ||
 				getTypeDeToken() == TypeDeToken.absolute ||
-				getTypeDeToken() == TypeDeToken.kInput ||
-				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
 				finAtteinte()) {
 
@@ -85,7 +83,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "+ or )");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "+, ), | or ,");
 	}
 
 	/*
@@ -125,8 +123,6 @@ public class AnalyseSyntaxique {
 		if (getTypeDeToken() == TypeDeToken.add ||
 				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
-				getTypeDeToken() == TypeDeToken.kInput ||
-				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
 				finAtteinte()) {
 
@@ -134,7 +130,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or ) A_prime");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "- , + | or )");
 	}
 
 	/*
@@ -266,7 +262,7 @@ public class AnalyseSyntaxique {
 			}
 			throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"| attendu");
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"intv, double, (, |, pow, ou ident attendu");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(),"intv, double, (, |, pow, cos, sin, e ou ident attendu");
 	}
 
 	/*
@@ -304,8 +300,6 @@ public class AnalyseSyntaxique {
 				getTypeDeToken() == TypeDeToken.sub ||
 				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
-				getTypeDeToken() == TypeDeToken.kInput ||
-				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
 				finAtteinte()) {
 
@@ -313,7 +307,7 @@ public class AnalyseSyntaxique {
 
 			return i;
 		}
-		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + or ) C_prime");
+		throw new UnexpectedTokenException(tokens.get(pos).getPosition(), "* + - | or )");
 	}
 
 	/*
@@ -352,8 +346,6 @@ public class AnalyseSyntaxique {
 		if (getTypeDeToken() == TypeDeToken.add ||
 				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
-				getTypeDeToken() == TypeDeToken.kInput ||
-				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
 				getTypeDeToken() == TypeDeToken.multiply ||
 				getTypeDeToken() == TypeDeToken.sub ||
@@ -403,8 +395,6 @@ public class AnalyseSyntaxique {
 		if (getTypeDeToken() == TypeDeToken.add ||
 				getTypeDeToken() == TypeDeToken.absolute ||
 				getTypeDeToken() == TypeDeToken.rightPar ||
-				getTypeDeToken() == TypeDeToken.kInput ||
-				getTypeDeToken() == TypeDeToken.kPrint ||
 				getTypeDeToken() == TypeDeToken.comma ||
 				getTypeDeToken() == TypeDeToken.multiply ||
 				getTypeDeToken() == TypeDeToken.sub ||
