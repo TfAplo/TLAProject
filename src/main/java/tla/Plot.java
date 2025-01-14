@@ -46,7 +46,9 @@ public class Plot {
             throw new UnexpectedTokenException(e.getPosition(), e.getExpectedToken());
         } catch (IndexOutOfBoundsException e) {
             throw new IndexOutOfBoundsException(e.getMessage());
-        }catch (Exception e) {
+        } catch (NullPointerException e) {
+            throw new NullPointerException(e.getMessage());
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

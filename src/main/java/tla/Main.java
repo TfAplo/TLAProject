@@ -77,6 +77,8 @@ public class Main {
                 JOptionPane.showMessageDialog(frame, "Syntax error at position " + e.getPosition() + ": expected " + e.getExpectedToken(), "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (IndexOutOfBoundsException e){
                 JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: ), | ", "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: )", "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -90,6 +92,8 @@ public class Main {
                 JOptionPane.showMessageDialog(frame, "Syntax error at position " + e.getPosition() + ": expected " + e.getExpectedToken(), "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (IndexOutOfBoundsException e){
                 JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: ), | ", "Syntax Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(frame, "Manque d'un symbole, attendu: )", "Syntax Error", JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(frame, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
